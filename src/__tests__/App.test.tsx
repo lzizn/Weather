@@ -6,6 +6,7 @@ describe('Rendering', () => {
   it('Shoud render with success', () => {
     const { container } = render(<App />);
     const linkElement = screen.getByText(/Hello world!/i);
+
     expect(linkElement).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });

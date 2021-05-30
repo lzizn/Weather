@@ -11,11 +11,10 @@ import getLatLong from '../lib/getLatLong';
 import getWeatherData from '../lib/getWeatherData';
 
 interface WeatherContextType {
-  coordinates?: Coordinates;
-  setCoordinates?: React.Dispatch<React.SetStateAction<Coordinates>>;
+  currentCityCoords?: Coordinates;
   updateWeatherData?: (
     place: string,
-    city?: FavoriteCity,
+    city?: Coordinates,
   ) => Promise<void | React.ReactText>;
   weatherData?: WeatherData;
 }
@@ -32,36 +31,32 @@ export function WeatherContextProvider({
 
   const [isLoading, setLoading] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherData>();
-  const [coordinates, setCoordinates] = useState<Coordinates>();
+  const [currentCityCoords, setCurrentCityCoords] = useState<Coordinates>();
 
   function showError(err: Error) {
     setLoading((prevState) => !prevState);
     toast.error(`${err}`);
   }
 
-  async function updateWeatherData(place = '', city?: FavoriteCity) {
+  async function updateWeatherData(place = '', city?: Coordinates) {
     setLoading((prevState) => !prevState);
 
-    let newCityCoordinates: FavoriteCity | undefined = city;
+    let newCityCoords: Coordinates | undefined = city;
 
     if (!city?.latitude || !city.longitude) {
-      newCityCoordinates = await getLatLong(place);
+      newCityCoords = await getLatLong(place);
 
-      if (newCityCoordinates instanceof Error) {
-        showError(newCityCoordinates);
+      if (newCityCoords instanceof Error) {
+        showError(newCityCoords);
         return;
       }
     }
 
-    if (
-      newCityCoordinates &&
-      newCityCoordinates.latitude &&
-      newCityCoordinates.longitude
-    ) {
-      setCoordinates(newCityCoordinates);
+    if (newCityCoords && newCityCoords.latitude && newCityCoords.longitude) {
+      setCurrentCityCoords(newCityCoords);
       const data = await getWeatherData(
-        newCityCoordinates.latitude,
-        newCityCoordinates.longitude,
+        newCityCoords.latitude,
+        newCityCoords.longitude,
       );
 
       if (data instanceof Error) {
@@ -78,7 +73,7 @@ export function WeatherContextProvider({
       value={{
         updateWeatherData,
         weatherData,
-        coordinates,
+        currentCityCoords,
       }}
     >
       {isLoading || !weatherData ? <Loading /> : children}

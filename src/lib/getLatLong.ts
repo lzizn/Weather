@@ -54,8 +54,6 @@ export default async function getLatLong(
         });
       });
   } catch (error) {
-    console.log(error);
-
     return Error('Error while collecting coordinates data.');
   }
 

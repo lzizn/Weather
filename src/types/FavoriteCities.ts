@@ -1,8 +1,3 @@
-export default interface FavoriteCity {
-  latitude?: string;
-  longitude?: string;
-  county?: string;
-  name?: string;
-  region?: string;
-  country_code?: string;
-}
+import Coordinates from './Coordinates';
+
+export default interface FavoriteCity extends Coordinates {}

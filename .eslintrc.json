@@ -28,9 +28,10 @@
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "explicit-module-boundary-types": 0,
+    "explicit-module-boundary-types": ["warn"],
     "no-use-before-define": 0,
     "consistent-return": "warn",
+    "no-return-assign": ["warn"],
     "react/jsx-filename-extension": [
       1,
       {

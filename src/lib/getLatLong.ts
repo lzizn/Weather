@@ -1,7 +1,9 @@
 import axios from 'axios';
 import Coordinates from '../types/Coordinates';
 
-export default async function getLatLong(place: string) {
+export default async function getLatLong(
+  place: string,
+): Promise<void | Coordinates> {
   if (place.length < 3) {
     return alert('Must have at least 3 letters');
   }

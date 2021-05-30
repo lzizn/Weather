@@ -25,6 +25,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
   body, input, button, select {
+    font-weight: bold;
     font-family: "Montserrat", -apple-system, sans-serif;
   }
   a, a:hover  {

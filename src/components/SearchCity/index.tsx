@@ -11,7 +11,7 @@ export default function SearchCity({
   value: string;
   setValue: (city: string) => void;
   onClick: () => void;
-}) {
+}): JSX.Element {
   return (
     <InputWrapper>
       <Input

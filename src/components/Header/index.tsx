@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import SearchCity from '../SearchCity';
 import { Header } from './styles';
 
-import getLatLong from '../../lib/getLatLong';
+import { WeatherContext } from '../../contexts/WeatherContext';
 
-export default function HeaderComponent() {
+export default function HeaderComponent(): JSX.Element {
   const [city, setCity] = useState('');
 
-  async function handleClick() {
-    console.log(await getLatLong(city));
+  const { updateWeatherData } = useContext(WeatherContext);
+
+  async function handleUpdateWeatherData() {
+    if (updateWeatherData) {
+      await updateWeatherData(city);
+    }
   }
 
   return (
     <Header>
-      <SearchCity value={city} setValue={setCity} onClick={handleClick} />
+      <SearchCity
+        value={city}
+        setValue={setCity}
+        onClick={handleUpdateWeatherData}
+      />
     </Header>
   );
 }

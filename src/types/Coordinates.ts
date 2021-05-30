@@ -1,6 +1,6 @@
 export default interface Coordinates {
-  latitude?: number;
-  longitude?: number;
+  latitude?: string;
+  longitude?: string;
   type?: string;
   name?: string;
   number?: number;

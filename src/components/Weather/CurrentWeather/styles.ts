@@ -15,6 +15,7 @@ export const CurrentWeatherContainer = styled.div`
     display: flex;
     flex: auto;
     align-items: center;
+    flex-wrap: wrap;
   }
   & > div:first-of-type > svg {
     cursor: pointer;

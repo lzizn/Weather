@@ -42,7 +42,7 @@ export default async function getLatLong(
         }
 
         data.address_components.forEach((address) => {
-          if (address.types.includes('administrative_area_level_2')) {
+          if (address.types.includes('locality')) {
             coordinates.county = address.long_name;
           }
           if (address.types.includes('administrative_area_level_1')) {

@@ -1,10 +1,11 @@
 import React from 'react';
-import getFormattedData from '../../../lib/getFormattedData';
-
 import WeatherIcon from '../WeatherIcon';
 import PressureAndHumidity from '../PressureAndHumidity';
 
 import { CardContainer, Main } from './styles';
+import { CurrentDate } from '../CurrentWeather/styles';
+
+import getFormattedDate from '../../../lib/getFormattedDate';
 
 type CardData = {
   timestamp: string;
@@ -27,7 +28,7 @@ export default function NextDaysCard({
 }: CardData): JSX.Element {
   return (
     <CardContainer>
-      <span>{getFormattedData(timestamp)}</span>
+      <CurrentDate>{getFormattedDate(timestamp)}</CurrentDate>
       <Main>
         <WeatherIcon icon={icon} />
         <div>

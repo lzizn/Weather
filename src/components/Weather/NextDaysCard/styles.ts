@@ -16,6 +16,7 @@ export const CardContainer = styled.div`
 
   & > span {
     font-size: 0.8rem;
+    padding-left: 0.5rem;
   }
 `;
 export const Main = styled.div`

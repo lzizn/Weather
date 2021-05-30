@@ -6,15 +6,17 @@ export const NextDaysForecastWrapper = styled.div`
 
   display: grid;
   align-items: center;
-  justify-items: center;
-  grid-template-columns: repeat(3, auto);
-  grid-template-rows: repeat(2, auto);
-  grid-gap: 1rem 1rem;
+  place-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(auto, 1fr));
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
 
   @media (max-width: 840px) {
     margin-top: 2rem;
   }
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(2, auto);
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 `;

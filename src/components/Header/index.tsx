@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-import SearchCity from '../SearchCity';
+import SearchCity from './SearchCity';
 import { Header } from './styles';
 
 import { WeatherContext } from '../../contexts/WeatherContext';

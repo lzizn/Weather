@@ -1,11 +1,21 @@
 import React from 'react';
 
-import { Container } from './styles';
+import { AppContainer, StyledContainer } from './styles';
 
-export default function ContainerComponent({
+export default function AppContainerComponent({
   children,
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  return <Container>{children}</Container>;
+  return <AppContainer>{children}</AppContainer>;
+}
+
+export function Container({
+  children,
+  flexColumn = false,
+}: {
+  children: React.ReactNode;
+  flexColumn: boolean;
+}): JSX.Element {
+  return <StyledContainer flexColumn={flexColumn}>{children}</StyledContainer>;
 }

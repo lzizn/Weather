@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import SearchCity from './SearchCity';
 import { Header } from './styles';
@@ -6,11 +6,9 @@ import { Header } from './styles';
 import { WeatherContext } from '../../contexts/WeatherContext';
 
 export default function HeaderComponent(): JSX.Element {
-  const [city, setCity] = useState('');
-
   const { updateWeatherData } = useContext(WeatherContext);
 
-  async function handleUpdateWeatherData() {
+  async function handleUpdateWeatherData(city: string) {
     if (updateWeatherData) {
       await updateWeatherData(city);
     }
@@ -18,11 +16,7 @@ export default function HeaderComponent(): JSX.Element {
 
   return (
     <Header>
-      <SearchCity
-        value={city}
-        setValue={setCity}
-        onClick={handleUpdateWeatherData}
-      />
+      <SearchCity handleUpdateWeatherData={handleUpdateWeatherData} />
     </Header>
   );
 }

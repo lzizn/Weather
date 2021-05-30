@@ -27,7 +27,7 @@ export function WeatherContextProvider({
   children: ReactNode;
 }): JSX.Element {
   useEffect(() => {
-    updateWeatherData('Blumenau,Santa Catarina,SC');
+    updateWeatherData('Blumenau,Santa Catarina,BRA');
   }, []);
 
   const [isLoading, setLoading] = useState(false);

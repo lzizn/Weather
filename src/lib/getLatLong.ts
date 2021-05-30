@@ -6,7 +6,7 @@ export default async function getLatLong(
   place: string,
 ): Promise<Error | Coordinates> {
   if (place.length < 3) {
-    return Error('Must have at least 3 characters');
+    return Error('Must have at least 3 letters');
   }
 
   let coordinates: Coordinates = {};

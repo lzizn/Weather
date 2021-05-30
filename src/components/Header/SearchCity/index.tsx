@@ -1,28 +1,25 @@
 import React from 'react';
-import { FiSearch } from 'react-icons/fi';
 
-import { Input, InputWrapper } from './styles';
+import Autocomplete from 'react-google-autocomplete';
+
+import { InputWrapper } from './styles';
 
 export default function SearchCity({
-  value,
-  setValue,
-  onClick,
+  handleUpdateWeatherData,
 }: {
-  value: string;
-  setValue: (city: string) => void;
-  onClick: () => void;
+  handleUpdateWeatherData: (city: string) => void;
 }): JSX.Element {
   return (
     <InputWrapper>
-      <Input
-        type="text"
-        value={value}
-        placeholder="Type city and state"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setValue(e.target.value)
-        }
+      <Autocomplete
+        apiKey={process.env.REACT_APP_GOOGLE_KEY}
+        placeholder="Type a city"
+        style={{ width: '90%' }}
+        onPlaceSelected={(place: any) => {
+          console.log(place);
+          handleUpdateWeatherData(place.formatted_address);
+        }}
       />
-      <FiSearch size="1.4rem" onClick={onClick} title="SearchIcon" />
     </InputWrapper>
   );
 }

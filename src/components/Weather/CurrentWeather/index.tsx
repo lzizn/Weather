@@ -17,7 +17,7 @@ import {
 } from './styles';
 
 export default function CurrentWeather(): JSX.Element {
-  const { weatherData, coordinates } = useContext(WeatherContext);
+  const { weatherData, currentCityCoords } = useContext(WeatherContext);
   const { isFavorite, handleClickAddOrRemoveFavCity } = useContext(
     FavoriteCitiesContext,
   );
@@ -57,7 +57,7 @@ export default function CurrentWeather(): JSX.Element {
       <CurrentDate>{getFormattedDate(data?.dt)}</CurrentDate>
       <div>
         <h1>
-          {coordinates?.county}, {coordinates?.country_code}
+          {currentCityCoords?.county}, {currentCityCoords?.country_code}
         </h1>
         <Heart />
       </div>

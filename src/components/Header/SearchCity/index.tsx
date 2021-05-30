@@ -16,7 +16,6 @@ export default function SearchCity({
         placeholder="Type a city"
         style={{ width: '90%' }}
         onPlaceSelected={(place: any) => {
-          console.log(place);
           handleUpdateWeatherData(place.formatted_address);
         }}
       />

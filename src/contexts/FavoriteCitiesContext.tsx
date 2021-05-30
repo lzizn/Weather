@@ -1,7 +1,5 @@
 import React, { useContext, createContext, useState, useEffect } from 'react';
-import removeAccents from 'remove-accents';
 
-import Coordinates from '../types/Coordinates';
 import FavoriteCity from '../types/FavoriteCities';
 
 import { WeatherContext } from './WeatherContext';
@@ -23,11 +21,9 @@ export function FavoriteCitiesContextProvider({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  const { coordinates } = useContext(WeatherContext);
+  const { currentCityCoords } = useContext(WeatherContext);
 
   const [favoriteCities, setFavoriteCities] = useState<FavoriteCity[]>([]);
-  const [formattedCurrentCityCoords, setFormattedCurrentCityCoords] =
-    useState<Coordinates>();
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,24 +32,6 @@ export function FavoriteCitiesContextProvider({
       setFavoriteCities(JSON.parse(cities));
     }
   }, []);
-
-  useEffect(() => {
-    /*
-     *  useEffect responsible to remove accents from string
-     * data of current city.
-     *  We must remove accents because 'Vitoria, ES, BRA'
-     * and 'Vitória, ES, BRA' are the same city.
-     */
-
-    setFormattedCurrentCityCoords({
-      latitude: coordinates?.latitude,
-      longitude: coordinates?.longitude,
-      county: removeAccents(coordinates?.county || ''),
-      country_code: removeAccents(coordinates?.country_code || ''),
-      region: removeAccents(coordinates?.region || ''),
-      name: removeAccents(coordinates?.name || ''),
-    });
-  }, [coordinates, coordinates?.latitude]);
 
   useEffect(() => {
     /*
@@ -75,10 +53,9 @@ export function FavoriteCitiesContextProvider({
     let aux_isFavorite = 0;
     favoriteCities?.forEach((city) => {
       if (
-        (city.county === formattedCurrentCityCoords?.county ||
-          city.name === formattedCurrentCityCoords?.name) &&
-        city.country_code === formattedCurrentCityCoords?.country_code &&
-        city.region === formattedCurrentCityCoords?.region
+        city.county === currentCityCoords?.county &&
+        city.country_code === currentCityCoords?.country_code &&
+        city.region === currentCityCoords?.region
       ) {
         setIsFavorite(true);
         aux_isFavorite = 1;
@@ -87,7 +64,7 @@ export function FavoriteCitiesContextProvider({
     if (!aux_isFavorite) {
       setIsFavorite(false);
     }
-  }, [coordinates, formattedCurrentCityCoords, favoriteCities]);
+  }, [currentCityCoords, favoriteCities]);
 
   function handleClickAddOrRemoveFavCity() {
     if (!isFavorite) {
@@ -99,12 +76,12 @@ export function FavoriteCitiesContextProvider({
   function addCurrentCityToFavorite() {
     setFavoriteCities((prevState) => [
       {
-        latitude: coordinates?.latitude,
-        longitude: coordinates?.longitude,
-        county: coordinates?.county,
-        country_code: coordinates?.country_code,
-        region: coordinates?.region,
-        name: coordinates?.name,
+        latitude: currentCityCoords?.latitude,
+        longitude: currentCityCoords?.longitude,
+        county: currentCityCoords?.county,
+        country_code: currentCityCoords?.country_code,
+        region: currentCityCoords?.region,
+        name: currentCityCoords?.name,
       },
       ...prevState!,
     ]);
@@ -114,10 +91,10 @@ export function FavoriteCitiesContextProvider({
     setFavoriteCities((prevState) =>
       prevState?.filter(
         (city) =>
-          city.county !== coordinates?.county ||
-          city.country_code !== coordinates?.country_code ||
-          city.region !== coordinates?.region ||
-          city.name !== coordinates?.name,
+          city.county !== currentCityCoords?.county ||
+          city.country_code !== currentCityCoords?.country_code ||
+          city.region !== currentCityCoords?.region ||
+          city.name !== currentCityCoords?.name,
       ),
     );
   }

@@ -4,8 +4,6 @@ export const CurrentWeatherContainer = styled.div`
   width: 45%;
   max-width: 350px;
 
-  padding-right: 1.6rem;
-
   border-right: 3px solid #c5c3c3;
 
   & > h1,
@@ -13,9 +11,22 @@ export const CurrentWeatherContainer = styled.div`
     color: var(--black-02);
   }
 
+  & > div:first-of-type {
+    display: flex;
+    flex: auto;
+    align-items: center;
+  }
+  & > div:first-of-type > svg {
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
   @media (max-width: 840px) {
     width: 100%;
     border: none;
+  }
+
+  @media (min-width: 840px) {
+    padding-right: 1.6rem;
   }
 `;
 

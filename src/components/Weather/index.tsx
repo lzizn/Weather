@@ -1,15 +1,14 @@
 import React from 'react';
 
+import { Container } from '../Container';
 import CurrentWeather from './CurrentWeather';
 import NextDaysForecast from './NextDaysForecast';
 
-import { WeatherWrapper } from './style';
-
 export default function Weather(): JSX.Element {
   return (
-    <WeatherWrapper>
+    <Container flexColumn={false}>
       <CurrentWeather />
       <NextDaysForecast />
-    </WeatherWrapper>
+    </Container>
   );
 }

@@ -9,11 +9,11 @@ export default async function getLatLong(
   }
 
   let coordinates: Coordinates = {};
-
+  const formattedPlace = place.replaceAll(' ', '+').replaceAll(',', '+');
   try {
     await axios
       .get(
-        `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_POSITIONSTACK_KEY}&query=${place}`,
+        `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_POSITIONSTACK_KEY}&query=${formattedPlace}`,
       )
       .then((response) => {
         if (
@@ -27,6 +27,7 @@ export default async function getLatLong(
       });
   } catch (error) {
     console.error(error);
+    alert('Error while collecting coordinates data.');
   }
 
   return coordinates;

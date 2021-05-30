@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-
-import getFormattedData from '../../../lib/getFormattedData';
-
-import { WeatherContext } from '../../../contexts/WeatherContext';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 import PressureAndHumidity from '../PressureAndHumidity';
 import WeatherIcon from '../WeatherIcon';
+
+import { WeatherContext } from '../../../contexts/WeatherContext';
+import { FavoriteCitiesContext } from '../../../contexts/FavoriteCitiesContext';
+
+import getFormattedDate from '../../../lib/getFormattedDate';
 
 import {
   CurrentDate,
@@ -16,7 +18,9 @@ import {
 
 export default function CurrentWeather(): JSX.Element {
   const { weatherData, coordinates } = useContext(WeatherContext);
-
+  const { isFavorite, handleClickAddOrRemoveFavCity } = useContext(
+    FavoriteCitiesContext,
+  );
   const data = weatherData?.current;
 
   const formattedWeatherDescriptionText = () =>
@@ -27,13 +31,37 @@ export default function CurrentWeather(): JSX.Element {
           `${description.charAt(0).toUpperCase()}${description.slice(1)} `,
       );
 
+  const Heart = () => {
+    if (isFavorite) {
+      return (
+        <AiFillHeart
+          size={25}
+          onClick={() =>
+            handleClickAddOrRemoveFavCity && handleClickAddOrRemoveFavCity()
+          }
+        />
+      );
+    }
+    return (
+      <AiOutlineHeart
+        size={25}
+        onClick={() =>
+          handleClickAddOrRemoveFavCity && handleClickAddOrRemoveFavCity()
+        }
+      />
+    );
+  };
+
   return (
     <CurrentWeatherContainer>
-      <CurrentDate>{getFormattedData(data?.dt)}</CurrentDate>
-
-      <h1>
-        {coordinates?.name}, {coordinates?.country_code}
-      </h1>
+      <CurrentDate>{getFormattedDate(data?.dt)}</CurrentDate>
+      <div>
+        <h1>
+          {coordinates?.county || coordinates?.name},{' '}
+          {coordinates?.country_code}
+        </h1>
+        <Heart />
+      </div>
 
       <h3>{formattedWeatherDescriptionText()}</h3>
 

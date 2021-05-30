@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import { Container } from '../Container';
 import FavoriteCityCard from './FavoriteCityCard';
 
@@ -7,7 +6,7 @@ import { FavoriteCitiesContext } from '../../contexts/FavoriteCitiesContext';
 
 import { FavCityCardsContainer, Title, Text } from './styles';
 
-export default function FavoriteCities() {
+export default function FavoriteCities(): JSX.Element {
   const { favoriteCities } = useContext(FavoriteCitiesContext);
 
   function FavoriteCitiesCards(): JSX.Element[] | JSX.Element {

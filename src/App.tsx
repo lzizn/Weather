@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import Container from './components/Container';
 import Header from './components/Header';
@@ -22,6 +23,17 @@ export default function App(): JSX.Element {
           </Container>
         </FavoriteCitiesContextProvider>
       </WeatherContextProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <GlobalStyle />
     </>
   );

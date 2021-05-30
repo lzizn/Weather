@@ -1,11 +1,12 @@
 import axios from 'axios';
+
 import Coordinates from '../types/Coordinates';
 
 export default async function getLatLong(
   place: string,
-): Promise<void | Coordinates> {
+): Promise<Error | Coordinates> {
   if (place.length < 3) {
-    return alert('Must have at least 3 letters');
+    return Error('Must have at least 3 characters');
   }
 
   let coordinates: Coordinates = {};
@@ -22,12 +23,11 @@ export default async function getLatLong(
         ) {
           coordinates = response.data.data[0];
         } else {
-          alert("Sorry. We couldn't find a city, try again.");
+          coordinates = new Error("Sorry. We couldn't find a city, try again");
         }
       });
   } catch (error) {
-    console.error(error);
-    alert('Error while collecting coordinates data.');
+    return Error('Error while collecting coordinates data.');
   }
 
   return coordinates;

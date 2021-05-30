@@ -8,7 +8,11 @@ import FavoriteCity from '../../../types/FavoriteCities';
 
 import { FavCityCardWrapper, FavCityName, RemoveFavCity } from './styles';
 
-export default function FavoriteCityCard({ city }: { city: FavoriteCity }) {
+export default function FavoriteCityCard({
+  city,
+}: {
+  city: FavoriteCity;
+}): JSX.Element {
   const { removeFavoriteCity } = useContext(FavoriteCitiesContext);
   const { updateWeatherData } = useContext(WeatherContext);
 

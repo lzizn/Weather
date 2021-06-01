@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState, useEffect } from 'react';
 
-import FavoriteCity from '../types/FavoriteCities';
+import FavoriteCity from '../types/FavoriteCity';
 
 import { WeatherContext } from './WeatherContext';
 

@@ -5,19 +5,25 @@ import Loading from '../components/Loading';
 
 import WeatherData from '../types/WeatherData';
 import Coordinates from '../types/Coordinates';
-import FavoriteCity from '../types/FavoriteCities';
+import FavoriteCity from '../types/FavoriteCity';
 
 import getLatLong from '../lib/getLatLong';
 import getWeatherData from '../lib/getWeatherData';
 
 interface WeatherContextType {
   currentCityCoords?: Coordinates;
-  updateWeatherData?: (
-    place: string,
-    city?: Coordinates,
-  ) => Promise<void | React.ReactText>;
+  updateWeatherData?: ({
+    cityName,
+    city,
+  }: UpdateWeatherDataProps) => Promise<void>;
+  isLoading?: boolean;
   weatherData?: WeatherData;
 }
+
+type UpdateWeatherDataProps = {
+  cityName?: string;
+  city?: FavoriteCity;
+};
 
 export const WeatherContext = createContext<WeatherContextType>({});
 export function WeatherContextProvider({
@@ -25,48 +31,71 @@ export function WeatherContextProvider({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  useEffect(() => {
-    updateWeatherData('Blumenau,Santa Catarina,BRA');
-  }, []);
-
   const [isLoading, setLoading] = useState(false);
   const [weatherData, setWeatherData] = useState<WeatherData>();
   const [currentCityCoords, setCurrentCityCoords] = useState<Coordinates>();
 
-  function showError(err: Error) {
+  const showError = (err: Error) => {
     setLoading((prevState) => !prevState);
     toast.error(`${err}`);
-  }
+  };
 
-  async function updateWeatherData(place = '', city?: Coordinates) {
+  async function updateWeatherData({ cityName, city }: UpdateWeatherDataProps) {
+    /*
+     ? Update the weather data by fetching 2 APIS:
+     * 1. GoogleGeocodingAPI to get Coordinates of city
+     * 2. OpenweatherAPI (passing city coordinates) to get weather data
+     *
+     - If @param city:FavCity is provided, we only fetch OpenweatherAPI, because we already have the city coords data.
+     - If @param cityName: string is provided and city isn't, we fetch GeocodingAPI, then OpenWeatherAPI
+     *
+     */
+
+    // * If none of the params are provided, throw an error
+
+    if (!city && !cityName) {
+      showError(
+        Error(
+          'While updating weather: Must pass at least 1 param to call function',
+        ),
+      );
+      return;
+    }
+
     setLoading((prevState) => !prevState);
 
-    let newCityCoords: Coordinates | undefined = city;
+    let newCityCoords = city;
 
-    if (!city?.latitude || !city.longitude) {
-      newCityCoords = await getLatLong(place);
-
-      if (newCityCoords instanceof Error) {
-        showError(newCityCoords);
+    if (!newCityCoords && cityName) {
+      try {
+        newCityCoords = await getLatLong(cityName);
+      } catch (error) {
+        showError(error);
         return;
       }
     }
 
     if (newCityCoords && newCityCoords.latitude && newCityCoords.longitude) {
-      setCurrentCityCoords(newCityCoords);
-      const data = await getWeatherData(
-        newCityCoords.latitude,
-        newCityCoords.longitude,
-      );
+      try {
+        const data = await getWeatherData(
+          newCityCoords.latitude,
+          newCityCoords.longitude,
+        );
 
-      if (data instanceof Error) {
-        showError(data);
+        setCurrentCityCoords(newCityCoords);
+        setWeatherData(data);
+      } catch (error) {
+        showError(error);
         return;
       }
-      setWeatherData(data);
     }
     setLoading((prevState) => !prevState);
   }
+
+  useEffect(() => {
+    // * Standard city
+    updateWeatherData({ cityName: 'Blumenau,Santa Catarina,BRA' });
+  }, []);
 
   return (
     <WeatherContext.Provider
@@ -74,9 +103,10 @@ export function WeatherContextProvider({
         updateWeatherData,
         weatherData,
         currentCityCoords,
+        isLoading,
       }}
     >
-      {isLoading || !weatherData ? <Loading /> : children}
+      {!weatherData ? <Loading /> : children}
     </WeatherContext.Provider>
   );
 }

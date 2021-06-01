@@ -2,13 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-    --black-01: #101010;
-    --black-02: #2E2D2D; 
-    --black-03: #303030;
-    --gray-01: #606060;
-    --gray-02: #C4C4C4;
-    --white-01: #F0F0F0;
-    --red: #F56A6A;
+    --black: rgba(0, 0, 0, 0.7);
+    --black-01: rgba(10, 10, 10, 1);
+    --black-02: rgba(20, 20, 20, 0.8);
+    --black-03: rgba(46, 45, 45, 0.7); 
   }
   * {
     margin: 0;

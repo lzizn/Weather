@@ -57,7 +57,8 @@ export default function CurrentWeather(): JSX.Element {
       <CurrentDate>{getFormattedDate(data?.dt)}</CurrentDate>
       <div>
         <h1>
-          {currentCityCoords?.county}, {currentCityCoords?.country_code}
+          {currentCityCoords?.county || currentCityCoords?.region},{' '}
+          {currentCityCoords?.country_code}
         </h1>
         <Heart />
       </div>

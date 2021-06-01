@@ -9,7 +9,8 @@ export const CardContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
 
-  background: #d6d5d5;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 20px;
 
   padding: 0.5rem;
@@ -32,8 +33,10 @@ export const Main = styled.div`
 
   & > div > h1 {
     font-size: 1.2rem;
+    color: var(--black-01);
   }
   & > div > h3 {
+    color: var(--black-01);
     font-size: 0.7rem;
   }
 `;

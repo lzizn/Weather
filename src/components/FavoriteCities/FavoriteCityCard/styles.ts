@@ -10,7 +10,8 @@ export const FavCityCardWrapper = styled.div`
 
   padding: 0 1rem;
 
-  background: var(--gray-02);
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
 `;
 
@@ -21,12 +22,13 @@ export const FavCityName = styled.h1`
 `;
 
 export const RemoveFavCity = styled.div`
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 20px;
-  padding: 0.4rem;
-  background: var(--red);
+  padding: 0.5rem;
+  background: rgba(245, 106, 106, 0.7);
 
   cursor: pointer;
 `;

@@ -4,13 +4,14 @@ export const CurrentWeatherContainer = styled.div`
   width: 45%;
   max-width: 350px;
 
-  border-right: 3px solid #c5c3c3;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
 
-  & > h1,
+  & > div > h1 {
+    color: var(--black-01);
+  }
   & > h3 {
     color: var(--black-02);
   }
-
   & > div:first-of-type {
     display: flex;
     flex: auto;

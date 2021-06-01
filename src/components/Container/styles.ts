@@ -1,8 +1,12 @@
 import styled, { css } from 'styled-components';
 
+type ContainerProps = {
+  icon?: string;
+};
+
 export const AppContainer = styled.div`
   width: 100%;
-  min-height: 90vh;
+  min-height: 100vh;
   min-width: 300px;
 
   & > div {
@@ -17,12 +21,12 @@ export const AppContainer = styled.div`
   justify-content: space-around;
   align-items: space-between;
 
-  padding: 1rem;
+  padding: 2rem;
 
-  background: var(--white-01);
+  background: ${(props: ContainerProps) => getBackgroundColor(props.icon)};
 `;
 
-type ContainerType = {
+type StyledContainerType = {
   flexColumn: boolean;
 };
 
@@ -34,7 +38,7 @@ export const StyledContainer = styled.div`
   padding: 1.6rem;
 
   display: flex;
-  ${(props: ContainerType) =>
+  ${(props: StyledContainerType) =>
     props.flexColumn
       ? css`
           flex-direction: column;
@@ -45,7 +49,7 @@ export const StyledContainer = styled.div`
 
   border-radius: 20px;
 
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
 
   @media (max-width: 840px) {
     flex-direction: column;
@@ -54,4 +58,25 @@ export const StyledContainer = styled.div`
 
 StyledContainer.defaultProps = {
   flexColumn: false,
+};
+
+const getBackgroundColor = (icon: string | undefined) => {
+  if (!icon) {
+    return 'linear-gradient(180deg, rgba(128, 245, 245, 1) 0%, rgba(46, 205, 240, 1) 100%);';
+  }
+  const code = icon.slice(0, 2);
+
+  if (code.includes('01') || code.includes('02')) {
+    return 'linear-gradient(180deg, rgba(128, 245, 245, 0.8) 0%, rgba(46, 205, 240, 0.9) 100%);';
+  }
+  if (code.includes('03') || code.includes('04')) {
+    return 'linear-gradient(180deg, rgba(105, 221, 222, 0.7) 0%, rgba(56, 167, 213, 0.9) 100%);';
+  }
+  if (code.includes('09') || code.includes('10')) {
+    return 'linear-gradient(180deg, rgba(85, 181, 250, 0.4) 0%, rgba(56, 167, 211, 0.6) 100%);';
+  }
+  if (code.includes('11') || code.includes('50')) {
+    return 'linear-gradient(180deg, rgba(56, 167, 211, 0.6) 0%, rgba(56, 167, 211, 0.33) 100%);';
+  }
+  return 'linear-gradient(180deg, rgba(56, 167, 211, 0.6) 0%, rgba(56, 167, 211, 0.33) 100%);';
 };

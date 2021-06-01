@@ -4,7 +4,7 @@ import { FiTrash } from 'react-icons/fi';
 import { FavoriteCitiesContext } from '../../../contexts/FavoriteCitiesContext';
 import { WeatherContext } from '../../../contexts/WeatherContext';
 
-import FavoriteCity from '../../../types/FavoriteCities';
+import FavoriteCity from '../../../types/FavoriteCity';
 
 import { FavCityCardWrapper, FavCityName, RemoveFavCity } from './styles';
 
@@ -18,7 +18,13 @@ export default function FavoriteCityCard({
 
   function handleUpdateWeather() {
     if (updateWeatherData) {
-      updateWeatherData('', city);
+      updateWeatherData({ city });
+    }
+  }
+
+  function handleRemoveFavoriteCity() {
+    if (removeFavoriteCity) {
+      removeFavoriteCity(city);
     }
   }
 
@@ -27,9 +33,7 @@ export default function FavoriteCityCard({
       <FavCityName onClick={handleUpdateWeather}>
         {city?.county || city?.name}
       </FavCityName>
-      <RemoveFavCity
-        onClick={() => removeFavoriteCity && removeFavoriteCity(city)}
-      >
+      <RemoveFavCity onClick={handleRemoveFavoriteCity}>
         <FiTrash size="1rem" />
       </RemoveFavCity>
     </FavCityCardWrapper>

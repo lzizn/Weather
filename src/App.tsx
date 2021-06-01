@@ -16,8 +16,8 @@ export default function App(): JSX.Element {
     <>
       <WeatherContextProvider>
         <FavoriteCitiesContextProvider>
-          <Header />
           <Container>
+            <Header />
             <Weather />
             <FavoriteCities />
           </Container>

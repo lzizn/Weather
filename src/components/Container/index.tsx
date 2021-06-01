@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { WeatherContext } from '../../contexts/WeatherContext';
 
 import { AppContainer, StyledContainer } from './styles';
 
@@ -7,7 +8,13 @@ export default function AppContainerComponent({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  return <AppContainer>{children}</AppContainer>;
+  const { weatherData } = useContext(WeatherContext);
+
+  return (
+    <AppContainer icon={weatherData?.current.weather[0]?.icon}>
+      {children}
+    </AppContainer>
+  );
 }
 
 export function Container({

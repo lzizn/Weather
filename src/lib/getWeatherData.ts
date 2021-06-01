@@ -5,7 +5,7 @@ import WeatherData from '../types/WeatherData';
 export default async function getWeatherData(
   latitude: string,
   longitude: string,
-): Promise<WeatherData | Error> {
+): Promise<WeatherData> {
   try {
     const data: WeatherData = await axios
       .get(
@@ -25,6 +25,6 @@ export default async function getWeatherData(
 
     return data;
   } catch (error) {
-    return Error('Error while collecting weather data.');
+    throw Error('Error while collecting weather data.');
   }
 }

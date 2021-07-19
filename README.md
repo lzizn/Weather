@@ -1,5 +1,3 @@
-#### [![Netlify Status](https://api.netlify.com/api/v1/badges/d0273623-b303-4714-8d30-887ed5da3bbf/deploy-status)](https://webweatherchallenge.netlify.app/)
-
 # [WebWeatherChallenge](https://webweatherchallenge.netlify.app/) 🌧️
 
 ## Table of contents :bookmark_tabs: 

@@ -1,9 +1,11 @@
+'use client';
+
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Loading from '../components/Loading';
 
-import WeatherData from '../types/WeatherData';
+import { WeatherForecast } from '../types/WeatherData';
 import Coordinates from '../types/Coordinates';
 import FavoriteCity from '../types/FavoriteCity';
 
@@ -17,7 +19,7 @@ interface WeatherContextType {
     city,
   }: UpdateWeatherDataProps) => Promise<void>;
   isLoading?: boolean;
-  weatherData?: WeatherData;
+  weatherData: WeatherForecast[];
 }
 
 type UpdateWeatherDataProps = {
@@ -25,14 +27,16 @@ type UpdateWeatherDataProps = {
   city?: FavoriteCity;
 };
 
-export const WeatherContext = createContext<WeatherContextType>({});
+export const WeatherContext = createContext<WeatherContextType>(
+  {} as WeatherContextType,
+);
 export function WeatherContextProvider({
   children,
 }: {
   children: ReactNode;
 }): JSX.Element {
   const [isLoading, setLoading] = useState(false);
-  const [weatherData, setWeatherData] = useState<WeatherData>();
+  const [weatherData, setWeatherData] = useState<WeatherForecast[]>([]);
   const [currentCityCoords, setCurrentCityCoords] = useState<Coordinates>();
 
   const showError = (err: Error) => {
@@ -69,7 +73,7 @@ export function WeatherContextProvider({
     if (!newCityCoords && cityName) {
       try {
         newCityCoords = await getLatLong(cityName);
-      } catch (error) {
+      } catch (error: any) {
         showError(error);
         return;
       }
@@ -84,7 +88,7 @@ export function WeatherContextProvider({
 
         setCurrentCityCoords(newCityCoords);
         setWeatherData(data);
-      } catch (error) {
+      } catch (error: any) {
         showError(error);
         return;
       }
@@ -106,7 +110,8 @@ export function WeatherContextProvider({
         isLoading,
       }}
     >
-      {!weatherData ? <Loading /> : children}
+      {!weatherData.length ? <Loading /> : children}
     </WeatherContext.Provider>
   );
 }
+

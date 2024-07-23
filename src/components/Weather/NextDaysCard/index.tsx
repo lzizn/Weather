@@ -8,20 +8,20 @@ import { CurrentDate } from '../CurrentWeather/styles';
 import getFormattedDate from '../../../lib/getFormattedDate';
 
 type CardData = {
-  timestamp: string;
-  temperature: string;
-  max: string;
-  min: string;
-  humidity: string;
-  pressure: string;
+  timestamp: number;
+  temp: number;
+  temp_max: number;
+  temp_min: number;
+  humidity: number;
+  pressure: number;
   icon: string;
 };
 
 export default function NextDaysCard({
   timestamp,
-  temperature,
-  max,
-  min,
+  temp,
+  temp_max,
+  temp_min,
   humidity,
   pressure,
   icon,
@@ -32,9 +32,9 @@ export default function NextDaysCard({
       <Main>
         <WeatherIcon icon={icon} />
         <div>
-          <h1>{Math.round(Number(temperature))}° C</h1>
+          <h1>{Math.round(temp)}° C</h1>
           <h3>
-            {Math.round(Number(min))}° C/{Math.round(Number(max))}° C
+            {Math.round(temp_min)}° C/{Math.round(temp_max)}° C
           </h3>
         </div>
       </Main>
@@ -46,3 +46,4 @@ export default function NextDaysCard({
     </CardContainer>
   );
 }
+

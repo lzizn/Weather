@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useContext, createContext, useState, useEffect } from 'react';
 
-import FavoriteCity from '../types/FavoriteCity';
+import type FavoriteCity from '../types/FavoriteCity';
 
 import { WeatherContext } from './WeatherContext';
 
@@ -125,3 +127,4 @@ export function FavoriteCitiesContextProvider({
     </FavoriteCitiesContext.Provider>
   );
 }
+

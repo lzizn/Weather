@@ -10,20 +10,21 @@ export default function NextDaysForecast(): JSX.Element {
 
   return (
     <NextDaysForecastWrapper>
-      {weatherData?.daily.map((day) => {
+      {weatherData.map(({ dt, main, weather }) => {
         return (
           <NextDaysCard
-            key={day.dt}
-            timestamp={day.dt}
-            temperature={day.temp.day}
-            max={day.temp.max}
-            min={day.temp.min}
-            humidity={day.humidity}
-            pressure={day.pressure}
-            icon={day.weather[0].icon}
+            key={dt}
+            timestamp={dt}
+            temp={main.temp}
+            temp_max={main.temp_max}
+            temp_min={main.temp_min}
+            humidity={main.humidity}
+            pressure={main.pressure}
+            icon={weather[0].icon}
           />
         );
       })}
     </NextDaysForecastWrapper>
   );
 }
+

@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
-import { WeatherContext } from '../../contexts/WeatherContext';
+
+import { WeatherContext } from '@/contexts/WeatherContext';
 
 import { Container } from '../Container';
 import Loading from '../Loading';
+
 import CurrentWeather from './CurrentWeather';
 import NextDaysForecast from './NextDaysForecast';
 
@@ -24,3 +26,4 @@ export default function Weather(): JSX.Element {
 
   return <Container flexColumn={false}>{content}</Container>;
 }
+

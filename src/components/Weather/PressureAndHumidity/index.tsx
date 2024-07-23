@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiDroplet } from 'react-icons/bi';
 
-import PressureIcon from '../../../assets/PressureIcon.svg';
+import PressureIcon from '@/assets/PressureIcon.svg';
 
 import { Item, PressureAndHumidtyWrapper } from './styles';
 
@@ -10,8 +10,8 @@ export default function PressureAndHumidity({
   humidity,
   size,
 }: {
-  pressure: string | undefined;
-  humidity: string | undefined;
+  pressure: number | undefined;
+  humidity: number | undefined;
   size: string;
 }): JSX.Element {
   return (
@@ -27,3 +27,4 @@ export default function PressureAndHumidity({
     </PressureAndHumidtyWrapper>
   );
 }
+

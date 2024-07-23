@@ -21,10 +21,10 @@ export default function CurrentWeather(): JSX.Element {
   const { isFavorite, handleClickAddOrRemoveFavCity } = useContext(
     FavoriteCitiesContext,
   );
-  const data = weatherData?.current;
+  const currentWeather = weatherData[0] || {};
 
   const formattedWeatherDescriptionText = () =>
-    data?.weather[0].description
+    currentWeather.weather[0].description
       .split(' ')
       .map(
         (description) =>
@@ -54,7 +54,7 @@ export default function CurrentWeather(): JSX.Element {
 
   return (
     <CurrentWeatherContainer>
-      <CurrentDate>{getFormattedDate(data?.dt)}</CurrentDate>
+      <CurrentDate>{getFormattedDate(currentWeather?.dt)}</CurrentDate>
       <div>
         <h1>
           {currentCityCoords?.county || currentCityCoords?.region},{' '}
@@ -66,20 +66,21 @@ export default function CurrentWeather(): JSX.Element {
       <h3>{formattedWeatherDescriptionText()}</h3>
 
       <TemperatureAndImageWrapper>
-        <h1>{Math.round(data?.temp)}° C</h1>
-        <WeatherIcon icon={data?.weather[0].icon} />
+        <h1>{Math.round(currentWeather.main.temp)}° C</h1>
+        <WeatherIcon icon={currentWeather?.weather[0].icon} />
       </TemperatureAndImageWrapper>
 
       <MaxAndMinTemp>
-        {Math.round(weatherData?.daily[0].temp?.min)}° C/
-        {Math.round(weatherData?.daily[0].temp?.max)}° C
+        {Math.round(currentWeather.main.temp_min)}° C/
+        {Math.round(currentWeather.main.temp_min)}° C
       </MaxAndMinTemp>
 
       <PressureAndHumidity
-        pressure={data?.pressure}
-        humidity={data?.humidity}
+        pressure={currentWeather.main.pressure}
+        humidity={currentWeather.main.humidity}
         size="large"
       />
     </CurrentWeatherContainer>
   );
 }
+

@@ -1,15 +1,17 @@
+'use client';
+
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import Container from './components/Container';
-import Header from './components/Header';
-import Weather from './components/Weather';
-import FavoriteCities from './components/FavoriteCities';
+import Header from '@/components/Header';
+import Weather from '@/components/Weather';
+import Container from '@/components/Container';
+import FavoriteCities from '@/components/FavoriteCities';
 
-import GlobalStyle from './styles/global';
+import { WeatherContextProvider } from '@/contexts/WeatherContext';
+import { FavoriteCitiesContextProvider } from '@/contexts/FavoriteCitiesContext';
 
-import { WeatherContextProvider } from './contexts/WeatherContext';
-import { FavoriteCitiesContextProvider } from './contexts/FavoriteCitiesContext';
+import GlobalStyle from '../styles/global';
 
 export default function App(): JSX.Element {
   return (
@@ -23,6 +25,7 @@ export default function App(): JSX.Element {
           </Container>
         </FavoriteCitiesContextProvider>
       </WeatherContextProvider>
+      <GlobalStyle />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -34,7 +37,7 @@ export default function App(): JSX.Element {
         draggable
         pauseOnHover
       />
-      <GlobalStyle />
     </>
   );
 }
+

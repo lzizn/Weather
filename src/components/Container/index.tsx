@@ -11,7 +11,7 @@ export default function AppContainerComponent({
   const { weatherData } = useContext(WeatherContext);
 
   return (
-    <AppContainer icon={weatherData?.current.weather[0]?.icon}>
+    <AppContainer icon={weatherData[0].weather[0].icon}>
       {children}
     </AppContainer>
   );
@@ -26,3 +26,4 @@ export function Container({
 }): JSX.Element {
   return <StyledContainer flexColumn={flexColumn}>{children}</StyledContainer>;
 }
+

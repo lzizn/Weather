@@ -1,17 +1,20 @@
 import axios from 'axios';
 
-import WeatherData from '../types/WeatherData';
+import type {
+  OpenWeatherResponse,
+  WeatherForecast,
+} from '../types/WeatherData';
+
+import data from '@/mocks/weatherData.json';
 
 export default async function getWeatherData(
-  latitude: string,
-  longitude: string,
-): Promise<WeatherData> {
+  latitude: number,
+  longitude: number,
+): Promise<WeatherForecast[]> {
   try {
-    const data: WeatherData = await axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_KEY}`,
-      )
-      .then((response) => response.data);
+    // const { data } = await axios.get<OpenWeatherResponse>(
+    //   `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`,
+    // );
 
     /*
      * This API returns 7-day forecast, including the actual day (array 1st element),
@@ -20,11 +23,13 @@ export default async function getWeatherData(
      * Removing 1st and last day;
      */
 
-    data.daily.shift();
-    data.daily.pop();
+    // data.daily.shift();
+    // data.daily.pop();
 
-    return data;
+    return data.list;
   } catch (error) {
+    console.log({ error });
     throw Error('Error while collecting weather data.');
   }
 }
+

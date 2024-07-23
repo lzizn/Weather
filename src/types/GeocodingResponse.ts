@@ -7,8 +7,9 @@ export default interface GoogleGeocodingResponse {
   formatted_address: string;
   geometry: {
     location: {
-      lat: string;
-      lng: string;
+      lat: number;
+      lng: number;
     };
   };
 }
+

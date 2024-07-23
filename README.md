@@ -1,4 +1,4 @@
-# [WebWeatherChallenge] 🌧️
+# [WebWeatherChallenge](https://web-weather-challenge.vercel.app/) 🌧️
 
 ## Table of contents :bookmark_tabs: 
 * [General info](#general-info)
@@ -6,9 +6,8 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-
 ## General info :information_source:
-WebWeatherChallenge is a [technical test for a Front-end developer job application](./TODO.README.md#premierSoft-weather).
+WebWeatherChallenge was developed for [technical test for a Software Engineer job application at PremierSoft](./TODO.README.md#premierSoft-weather).
 	
 ## Preview :movie_camera:
 <p align="center">   
@@ -17,12 +16,10 @@ WebWeatherChallenge is a [technical test for a Front-end developer job applicati
 
 ## Technologies 🚀
 Project is created with:
-* ReactJS
+* ReactJS (v18)
+* NextJS
 * Typescript
 * Styled-Components
-* Axios
-* Toastify
-* React-Google-Autocomplete
 * OpenWeatherMap API for weather data
 * Google Geocoding API for coordinates data
 
@@ -32,8 +29,8 @@ Project is created with:
 To run this project, clone then install it locally using yarn:
 
 ```
-$ git clone https://github.com/laianbraum/WebWeatherChallenge-PremierSoft.git
-$ cd WebWeatherChallenge-PremierSoft
-$ yarn
-$ yarn start
+$ git clone https://github.com/laianbraum/WebWeatherChallenge.git
+$ cd WebWeatherChallenge
+$ pnpm i
+$ pnpm run start
 ```

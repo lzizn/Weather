@@ -3,26 +3,25 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import Header from '@/components/Header';
-import Weather from '@/components/Weather';
-import Container from '@/components/Container';
-import FavoriteCities from '@/components/FavoriteCities';
+import { Header, Weather, AppContainer, FavoriteCities } from '@/components';
 
-import { WeatherContextProvider } from '@/contexts/WeatherContext';
-import { FavoriteCitiesContextProvider } from '@/contexts/FavoriteCitiesContext';
+import {
+  WeatherContextProvider,
+  FavoriteCitiesContextProvider,
+} from '@/contexts';
 
 import GlobalStyle from '../styles/global';
 
-export default function App(): JSX.Element {
+export default function App() {
   return (
     <>
       <WeatherContextProvider>
         <FavoriteCitiesContextProvider>
-          <Container>
+          <AppContainer>
             <Header />
             <Weather />
             <FavoriteCities />
-          </Container>
+          </AppContainer>
         </FavoriteCitiesContextProvider>
       </WeatherContextProvider>
       <GlobalStyle />

@@ -1,26 +1,20 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
-import SearchCity from './SearchCity';
-import { Header } from './styles';
+import { WeatherContext } from '@/contexts/WeatherContext';
 
-import { WeatherContext } from '../../contexts/WeatherContext';
+import { SearchCity } from './SearchCity';
 
-export default function HeaderComponent(): JSX.Element | null {
-  const { updateWeatherData, isLoading } = useContext(WeatherContext);
+import * as S from './styles';
 
-  async function handleUpdateWeatherData(cityName: string) {
-    if (updateWeatherData) {
-      await updateWeatherData({ cityName });
-    }
-  }
+export function Header() {
+  const { isLoading } = useContext(WeatherContext);
 
-  if (isLoading) {
-    return null;
-  }
+  if (isLoading) return null;
 
   return (
-    <Header>
-      <SearchCity handleUpdateWeatherData={handleUpdateWeatherData} />
-    </Header>
+    <S.Header>
+      <SearchCity />
+    </S.Header>
   );
 }
+

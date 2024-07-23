@@ -1,37 +1,26 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { FiTrash } from 'react-icons/fi';
 
-import { FavoriteCitiesContext } from '../../../contexts/FavoriteCitiesContext';
-import { WeatherContext } from '../../../contexts/WeatherContext';
-
-import FavoriteCity from '../../../types/FavoriteCity';
+import type { FavoriteCity } from '@/types';
+import { WeatherContext, FavoriteCitiesContext } from '@/contexts';
 
 import { FavCityCardWrapper, FavCityName, RemoveFavCity } from './styles';
 
-export default function FavoriteCityCard({
-  city,
-}: {
+interface FavoriteCityCardProps {
   city: FavoriteCity;
-}): JSX.Element {
-  const { removeFavoriteCity } = useContext(FavoriteCitiesContext);
+}
+
+export function FavoriteCityCard({ city }: FavoriteCityCardProps) {
   const { updateWeatherData } = useContext(WeatherContext);
+  const { removeFavoriteCity } = useContext(FavoriteCitiesContext);
 
-  function handleUpdateWeather() {
-    if (updateWeatherData) {
-      updateWeatherData({ city });
-    }
-  }
-
-  function handleRemoveFavoriteCity() {
-    if (removeFavoriteCity) {
-      removeFavoriteCity(city);
-    }
-  }
+  const handleUpdateWeather = () => updateWeatherData(city);
+  const handleRemoveFavoriteCity = () => removeFavoriteCity(city);
 
   return (
     <FavCityCardWrapper>
       <FavCityName onClick={handleUpdateWeather}>
-        {city?.county || city?.name}
+        {city.name || city.county}
       </FavCityName>
       <RemoveFavCity onClick={handleRemoveFavoriteCity}>
         <FiTrash size="1rem" />
@@ -39,3 +28,4 @@ export default function FavoriteCityCard({
     </FavCityCardWrapper>
   );
 }
+

@@ -24,6 +24,10 @@ export const AppContainer = styled.div<ContainerProps>`
   padding: 2rem;
 
   background: ${(props) => getBackgroundColor(props.icon)};
+
+  @media (max-width: 350px) {
+    padding: 0;
+  }
 `;
 
 type StyledContainerType = {

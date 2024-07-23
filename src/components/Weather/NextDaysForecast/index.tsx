@@ -1,29 +1,21 @@
-import React, { useContext } from 'react';
-import NextDaysCard from '../NextDaysCard';
+import { useContext } from 'react';
 
+import { WeatherContext } from '@/contexts';
+
+import { NextDayCard } from '../NextDayCard';
 import { NextDaysForecastWrapper } from './styles';
 
-import { WeatherContext } from '../../../contexts/WeatherContext';
-
-export default function NextDaysForecast(): JSX.Element {
+export function NextDaysForecast() {
   const { weatherData } = useContext(WeatherContext);
+
+  // * skip first day, because it is already on weatherData.current, displayed by "CurrentWeather"
+  const forecasts = weatherData.daily.slice(1);
 
   return (
     <NextDaysForecastWrapper>
-      {weatherData.map(({ dt, main, weather }) => {
-        return (
-          <NextDaysCard
-            key={dt}
-            timestamp={dt}
-            temp={main.temp}
-            temp_max={main.temp_max}
-            temp_min={main.temp_min}
-            humidity={main.humidity}
-            pressure={main.pressure}
-            icon={weather[0].icon}
-          />
-        );
-      })}
+      {forecasts.map((dailyForecast) => (
+        <NextDayCard key={dailyForecast.dt} {...dailyForecast} />
+      ))}
     </NextDaysForecastWrapper>
   );
 }

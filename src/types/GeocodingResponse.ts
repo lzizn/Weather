@@ -1,4 +1,4 @@
-export default interface GoogleGeocodingResponse {
+export interface GoogleGeocodingInfo {
   address_components: {
     long_name: string;
     short_name: string;

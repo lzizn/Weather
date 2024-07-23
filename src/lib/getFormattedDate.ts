@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default function getFormattedDate(timestamp: number): string {
+export function getFormattedDate(timestamp: number) {
   if (!timestamp) return '';
 
   const date = moment.unix(Number(timestamp));

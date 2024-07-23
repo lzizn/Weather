@@ -1,3 +1,4 @@
-import Coordinates from './Coordinates';
+import { Coordinates } from './Coordinates';
 
-export default interface FavoriteCity extends Coordinates {}
+export interface FavoriteCity extends Coordinates {}
+

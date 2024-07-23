@@ -1,34 +1,67 @@
-export interface OpenWeatherResponse {
-  cod: string;
-  message: number;
-  cnt: number;
-  list: WeatherForecast[];
-  city: CityInfo;
+export interface WeatherData {
+  lat: number;
+  lon: number;
+  timezone: string;
+  timezone_offset: number;
+  current: WeatherCurrentForecast;
+  daily: WeatherDailyForecast[];
 }
 
-export interface WeatherForecast {
+export interface WeatherCurrentForecast {
   dt: number;
-  main: WeatherMainInfo;
-  weather: WeatherUIInfo[];
-  clouds: Clouds;
-  wind: Wind;
-  rain?: RainProbabilityInNext3Hours;
-
-  dt_txt: string;
-  visibility: number;
-  pop: number;
-}
-
-export interface WeatherMainInfo {
+  sunrise: number;
+  sunset: number;
   temp: number;
   feels_like: number;
-  temp_min: number;
-  temp_max: number;
   pressure: number;
-  sea_level: number;
-  grnd_level: number;
   humidity: number;
-  temp_kf: number;
+  dew_point: number;
+  uvi: number;
+  clouds: number;
+  visibility: number;
+  wind_speed: number;
+  wind_deg: number;
+  wind_gust: number;
+  weather: WeatherUIInfo[];
+}
+
+export interface WeatherDailyForecast {
+  dt: number;
+  sunrise: number;
+  sunset: number;
+  moonrise: number;
+  moonset: number;
+  moon_phase: number;
+  summary: string;
+  temp: WeatherTemperature;
+  feels_like: WeatherFeelsLike;
+  pressure: number;
+  humidity: number;
+  dew_point: number;
+  wind_speed: number;
+  wind_deg: number;
+  wind_gust: number;
+  weather: WeatherUIInfo[];
+  clouds: number;
+  pop: number;
+  rain?: number;
+  uvi: number;
+}
+
+export interface WeatherTemperature {
+  day: number;
+  min: number;
+  max: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+export interface WeatherFeelsLike {
+  day: number;
+  night: number;
+  eve: number;
+  morn: number;
 }
 
 export interface WeatherUIInfo {
@@ -36,35 +69,5 @@ export interface WeatherUIInfo {
   main: string;
   description: string;
   icon: string;
-}
-
-export interface Clouds {
-  all: number;
-}
-
-export interface Wind {
-  speed: number;
-  deg: number;
-  gust: number;
-}
-
-export interface RainProbabilityInNext3Hours {
-  '3h': number;
-}
-
-export interface CityInfo {
-  id: number;
-  name: string;
-  coord: Coord;
-  country: string;
-  population: number;
-  timezone: number;
-  sunrise: number;
-  sunset: number;
-}
-
-export interface Coord {
-  lat: number;
-  lon: number;
 }
 

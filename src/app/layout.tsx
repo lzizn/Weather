@@ -2,11 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import type { Metadata } from 'next';
 
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
-
-import StyledComponentsRegistry from '../lib/registry';
+import { StyledComponentsRegistry } from '@/lib/registry';
 
 export const metadata: Metadata = {
   title: 'Web Weather Challenge',
@@ -20,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
     </html>

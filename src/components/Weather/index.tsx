@@ -1,29 +1,21 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
-import { WeatherContext } from '@/contexts/WeatherContext';
+import { WeatherContext } from '@/contexts';
 
 import { Container } from '../Container';
-import Loading from '../Loading';
+import { CurrentWeather } from './CurrentWeather';
+import { NextDaysForecast } from './NextDaysForecast';
 
-import CurrentWeather from './CurrentWeather';
-import NextDaysForecast from './NextDaysForecast';
-
-export default function Weather(): JSX.Element {
+export function Weather() {
   const { isLoading } = useContext(WeatherContext);
 
-  let content: JSX.Element;
+  if (isLoading) return null;
 
-  if (isLoading) {
-    content = <Loading />;
-  } else {
-    content = (
-      <>
-        <CurrentWeather />
-        <NextDaysForecast />
-      </>
-    );
-  }
-
-  return <Container flexColumn={false}>{content}</Container>;
+  return (
+    <Container flexColumn={false}>
+      <CurrentWeather />
+      <NextDaysForecast />
+    </Container>
+  );
 }
 

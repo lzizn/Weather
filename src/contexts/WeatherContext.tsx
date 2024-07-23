@@ -1,31 +1,23 @@
 'use client';
 
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import Loading from '../components/Loading';
+import {
+  getWeatherData,
+  getGeocodingInfo,
+  getCoordsFromGeocodingInfo,
+} from '@/lib';
 
-import { WeatherForecast } from '../types/WeatherData';
-import Coordinates from '../types/Coordinates';
-import FavoriteCity from '../types/FavoriteCity';
-
-import getLatLong from '../lib/getLatLong';
-import getWeatherData from '../lib/getWeatherData';
+import { Loading } from '@/components';
+import type { WeatherData, Coordinates } from '@/types';
 
 interface WeatherContextType {
   currentCityCoords?: Coordinates;
-  updateWeatherData?: ({
-    cityName,
-    city,
-  }: UpdateWeatherDataProps) => Promise<void>;
-  isLoading?: boolean;
-  weatherData: WeatherForecast[];
+  updateWeatherData: (props: Coordinates) => Promise<void>;
+  isLoading: boolean;
+  weatherData: WeatherData;
 }
-
-type UpdateWeatherDataProps = {
-  cityName?: string;
-  city?: FavoriteCity;
-};
 
 export const WeatherContext = createContext<WeatherContextType>(
   {} as WeatherContextType,
@@ -36,81 +28,66 @@ export function WeatherContextProvider({
   children: ReactNode;
 }): JSX.Element {
   const [isLoading, setLoading] = useState(false);
-  const [weatherData, setWeatherData] = useState<WeatherForecast[]>([]);
+  const [weatherData, setWeatherData] = useState<WeatherData>(
+    {} as WeatherData,
+  );
   const [currentCityCoords, setCurrentCityCoords] = useState<Coordinates>();
 
   const showError = (err: Error) => {
-    setLoading((prevState) => !prevState);
+    setLoading(false);
     toast.error(`${err}`);
   };
 
-  async function updateWeatherData({ cityName, city }: UpdateWeatherDataProps) {
-    /*
-     ? Update the weather data by fetching 2 APIS:
-     * 1. GoogleGeocodingAPI to get Coordinates of city
-     * 2. OpenweatherAPI (passing city coordinates) to get weather data
-     *
-     - If @param city:FavCity is provided, we only fetch OpenweatherAPI, because we already have the city coords data.
-     - If @param cityName: string is provided and city isn't, we fetch GeocodingAPI, then OpenWeatherAPI
-     *
-     */
-
-    // * If none of the params are provided, throw an error
-
-    if (!city && !cityName) {
-      showError(
-        Error(
-          'While updating weather: Must pass at least 1 param to call function',
-        ),
-      );
+  async function updateWeatherData(coords: Coordinates) {
+    if (!coords) {
+      const errorMsg = 'Error while updating weather: Unknown city';
+      showError(new Error(errorMsg));
       return;
     }
 
-    setLoading((prevState) => !prevState);
+    setLoading(true);
 
-    let newCityCoords = city;
+    let newCoords = { ...coords };
 
-    if (!newCityCoords && cityName) {
-      try {
-        newCityCoords = await getLatLong(cityName);
-      } catch (error: any) {
-        showError(error);
-        return;
+    try {
+      if (!newCoords.latitude || !newCoords.longitude) {
+        const geocodingInfo = await getGeocodingInfo(newCoords.name as string);
+        const googleCoords = getCoordsFromGeocodingInfo(geocodingInfo);
+
+        newCoords = { ...googleCoords };
       }
-    }
 
-    if (newCityCoords && newCityCoords.latitude && newCityCoords.longitude) {
-      try {
-        const data = await getWeatherData(
-          newCityCoords.latitude,
-          newCityCoords.longitude,
-        );
+      const data = await getWeatherData(
+        newCoords.latitude as number,
+        newCoords.longitude as number,
+      );
 
-        setCurrentCityCoords(newCityCoords);
-        setWeatherData(data);
-      } catch (error: any) {
-        showError(error);
-        return;
-      }
+      setCurrentCityCoords(newCoords);
+      setWeatherData(data);
+      setLoading(false);
+    } catch (error: any) {
+      showError(error);
     }
-    setLoading((prevState) => !prevState);
   }
 
   useEffect(() => {
-    // * Standard city
-    updateWeatherData({ cityName: 'Blumenau,Santa Catarina,BRA' });
+    updateWeatherData({ name: 'Blumenau,Santa Catarina,BRA' });
   }, []);
 
   return (
     <WeatherContext.Provider
       value={{
-        updateWeatherData,
         weatherData,
-        currentCityCoords,
         isLoading,
+        currentCityCoords,
+        updateWeatherData,
       }}
     >
-      {!weatherData.length ? <Loading /> : children}
+      {!weatherData || !Object.keys(weatherData).length ? (
+        <Loading />
+      ) : (
+        children
+      )}
     </WeatherContext.Provider>
   );
 }

@@ -1,29 +1,26 @@
 import React, { useContext } from 'react';
-import { WeatherContext } from '../../contexts/WeatherContext';
 
-import { AppContainer, StyledContainer } from './styles';
+import { WeatherContext } from '@/contexts';
+import * as S from './styles';
 
-export default function AppContainerComponent({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+export function AppContainer({ children }: React.PropsWithChildren<{}>) {
   const { weatherData } = useContext(WeatherContext);
 
   return (
-    <AppContainer icon={weatherData[0].weather[0].icon}>
+    <S.AppContainer icon={weatherData.current.weather[0].icon}>
       {children}
-    </AppContainer>
+    </S.AppContainer>
   );
 }
 
-export function Container({
-  children,
-  flexColumn = false,
-}: {
-  children: React.ReactNode;
-  flexColumn: boolean;
-}): JSX.Element {
-  return <StyledContainer flexColumn={flexColumn}>{children}</StyledContainer>;
+interface ContainerProps {
+  flexColumn?: boolean;
+}
+export function Container(props: React.PropsWithChildren<ContainerProps>) {
+  const { children, flexColumn = false } = props;
+
+  return (
+    <S.StyledContainer flexColumn={flexColumn}>{children}</S.StyledContainer>
+  );
 }
 

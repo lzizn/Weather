@@ -1,114 +1,83 @@
 'use client';
 
-import React, { useContext, createContext, useState, useEffect } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
 
-import type FavoriteCity from '../types/FavoriteCity';
+import type { FavoriteCity } from '@/types';
 
 import { WeatherContext } from './WeatherContext';
 
 interface FavoritiesCitiesContextType {
-  favoriteCities?: FavoriteCity[];
-  setFavoriteCities?: React.Dispatch<React.SetStateAction<FavoriteCity[]>>;
-  isFavorite?: boolean;
-  handleClickAddOrRemoveFavCity?: () => void;
-  removeFavoriteCity?: (city: FavoriteCity) => void;
+  isFavorite: boolean;
+  favoriteCities: FavoriteCity[];
+  setFavoriteCities: React.Dispatch<React.SetStateAction<FavoriteCity[]>>;
+  handleClickFavoriteButton: () => void;
+  removeFavoriteCity: (city: FavoriteCity) => void;
 }
 
 export const FavoriteCitiesContext = createContext<FavoritiesCitiesContextType>(
-  {},
+  {} as FavoritiesCitiesContextType,
 );
 
 export function FavoriteCitiesContextProvider({
   children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+}: React.PropsWithChildren<{}>) {
   const { currentCityCoords } = useContext(WeatherContext);
 
-  const [favoriteCities, setFavoriteCities] = useState<FavoriteCity[]>([]);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
-  useEffect(() => {
+  const [favoriteCities, setFavoriteCities] = useState<FavoriteCity[]>(() => {
     const cities = localStorage.getItem('@favoriteCities');
     if (cities) {
-      setFavoriteCities(JSON.parse(cities));
+      return JSON.parse(cities);
     }
-  }, []);
+
+    return [];
+  });
 
   useEffect(() => {
-    /*
-     * useEffect responsible for saving new changes
-     * of favoritesCities to localStorage
-     */
+    // * useEffect responsible for saving new changes of favoritesCities to localStorage
+    const currentStoredCities = localStorage.getItem('@favoriteCities');
+    const maybeNewCities = JSON.stringify(favoriteCities);
 
-    if (favoriteCities) {
-      localStorage.setItem('@favoriteCities', JSON.stringify(favoriteCities));
+    if (maybeNewCities !== currentStoredCities) {
+      localStorage.setItem('@favoriteCities', maybeNewCities);
     }
   }, [favoriteCities]);
 
   useEffect(() => {
-    /*
-     * useEffect responsible to check whether the current city is
-     * a favorite city or not
-     */
+    // * useEffect responsible to check whether the current city is a favorite city or not
 
-    let aux_isFavorite = 0;
-    favoriteCities?.forEach((city) => {
-      if (
-        city.county === currentCityCoords?.county &&
-        city.country_code === currentCityCoords?.country_code &&
-        city.region === currentCityCoords?.region
-      ) {
-        setIsFavorite(true);
-        aux_isFavorite = 1;
-      }
-    });
-    if (!aux_isFavorite) {
+    if (!currentCityCoords) {
       setIsFavorite(false);
+      return;
     }
+
+    const { name, county } = currentCityCoords;
+
+    const maybeCurrentIsFavorite = favoriteCities?.some(
+      (city) => city.county === county && city.name === name,
+    );
+
+    setIsFavorite(maybeCurrentIsFavorite);
   }, [currentCityCoords, favoriteCities]);
 
-  function handleClickAddOrRemoveFavCity() {
-    if (!isFavorite) {
-      return addCurrentCityToFavorite();
-    }
-    return removeCurrentCityFromFavorite();
+  function handleClickFavoriteButton() {
+    if (!currentCityCoords) return;
+
+    if (isFavorite) return removeFavoriteCity(currentCityCoords);
+
+    return addCityToFavorite(currentCityCoords);
   }
 
-  function addCurrentCityToFavorite() {
-    setFavoriteCities((prevState) => [
-      {
-        latitude: currentCityCoords?.latitude,
-        longitude: currentCityCoords?.longitude,
-        county: currentCityCoords?.county,
-        country_code: currentCityCoords?.country_code,
-        region: currentCityCoords?.region,
-        name: currentCityCoords?.name,
-      },
-      ...prevState!,
-    ]);
-  }
-
-  function removeCurrentCityFromFavorite() {
-    setFavoriteCities((prevState) =>
-      prevState?.filter(
-        (city) =>
-          city.county !== currentCityCoords?.county ||
-          city.country_code !== currentCityCoords?.country_code ||
-          city.region !== currentCityCoords?.region ||
-          city.name !== currentCityCoords?.name,
-      ),
-    );
+  function addCityToFavorite(city: FavoriteCity) {
+    setFavoriteCities((prevState) => [city, ...prevState]);
   }
 
   function removeFavoriteCity(city: FavoriteCity) {
+    const { county, name } = city;
+
     setFavoriteCities((prevState) =>
-      prevState?.filter(
-        (favCities) =>
-          favCities.county !== city?.county ||
-          favCities.country_code !== city?.country_code ||
-          favCities.region !== city?.region ||
-          favCities.name !== city?.name,
+      prevState.filter(
+        (favCity) => favCity.county !== county || favCity.name !== name,
       ),
     );
   }
@@ -116,11 +85,11 @@ export function FavoriteCitiesContextProvider({
   return (
     <FavoriteCitiesContext.Provider
       value={{
+        isFavorite,
         favoriteCities,
         setFavoriteCities,
-        isFavorite,
-        handleClickAddOrRemoveFavCity,
         removeFavoriteCity,
+        handleClickFavoriteButton: handleClickFavoriteButton || (() => {}),
       }}
     >
       {children}

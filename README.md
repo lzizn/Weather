@@ -29,8 +29,8 @@ Project is created with:
 To run this project, clone then install it locally using yarn:
 
 ```
-$ git clone https://github.com/laianbraum/WebWeatherChallenge.git
-$ cd WebWeatherChallenge
+$ git clone https://github.com/lzizn/Weather.git
+$ cd Weather
 $ pnpm i
 $ pnpm run start
 ```

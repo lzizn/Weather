@@ -1,10 +1,9 @@
 import moment from 'moment';
 
-export default function getFormattedDate(
-  timestamp: string | undefined,
-): string | undefined {
-  if (timestamp) {
-    const date = moment.unix(Number(timestamp));
-    return `${date.format('M')}/${date.format('DD')}, ${date.format('dddd')}`;
-  }
+export function getFormattedDate(timestamp: number) {
+  if (!timestamp) return '';
+
+  const date = moment.unix(Number(timestamp));
+  return `${date.format('M')}/${date.format('DD')}, ${date.format('dddd')}`;
 }
+

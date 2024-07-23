@@ -1,4 +1,4 @@
-export default interface GoogleGeocodingResponse {
+export interface GoogleGeocodingInfo {
   address_components: {
     long_name: string;
     short_name: string;
@@ -7,8 +7,9 @@ export default interface GoogleGeocodingResponse {
   formatted_address: string;
   geometry: {
     location: {
-      lat: string;
-      lng: string;
+      lat: number;
+      lng: number;
     };
   };
 }
+

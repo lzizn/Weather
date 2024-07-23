@@ -1,10 +1,6 @@
 import React from 'react';
 
-export default function WeatherIcon({
-  icon,
-}: {
-  icon: string | undefined;
-}): JSX.Element {
+export function WeatherIcon({ icon }: { icon: string | undefined }) {
   return (
     <img
       src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
@@ -15,3 +11,4 @@ export default function WeatherIcon({
     />
   );
 }
+

@@ -4,7 +4,7 @@ type ContainerProps = {
   icon?: string;
 };
 
-export const AppContainer = styled.div`
+export const AppContainer = styled.div<ContainerProps>`
   width: 100%;
   min-height: 100vh;
   min-width: 300px;
@@ -23,14 +23,18 @@ export const AppContainer = styled.div`
 
   padding: 2rem;
 
-  background: ${(props: ContainerProps) => getBackgroundColor(props.icon)};
+  background: ${(props) => getBackgroundColor(props.icon)};
+
+  @media (max-width: 350px) {
+    padding: 0;
+  }
 `;
 
 type StyledContainerType = {
   flexColumn: boolean;
 };
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div<StyledContainerType>`
   width: 100%;
   height: 100%;
 
@@ -38,7 +42,7 @@ export const StyledContainer = styled.div`
   padding: 1.6rem;
 
   display: flex;
-  ${(props: StyledContainerType) =>
+  ${(props) =>
     props.flexColumn
       ? css`
           flex-direction: column;
@@ -80,3 +84,4 @@ const getBackgroundColor = (icon: string | undefined) => {
   }
   return 'linear-gradient(180deg, rgba(56, 167, 211, 0.6) 0%, rgba(56, 167, 211, 0.33) 100%);';
 };
+

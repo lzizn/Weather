@@ -13,13 +13,13 @@ export const PressureAndHumidtyWrapper = styled.div`
   flex: auto;
 `;
 
-export const Item = styled.div`
+export const Item = styled.div<ItemProps>`
   display: flex;
   align-items: center;
 
   & > svg,
   & > img {
-    ${(props: ItemProps) =>
+    ${(props) =>
       props.size === 'small'
         ? css`
             width: 1rem;
@@ -32,7 +32,7 @@ export const Item = styled.div`
   }
 
   & > span {
-    ${(props: ItemProps) =>
+    ${(props) =>
       props.size === 'small'
         ? css`
             font-size: 0.8rem;
@@ -44,3 +44,4 @@ export const Item = styled.div`
           `}
   }
 `;
+

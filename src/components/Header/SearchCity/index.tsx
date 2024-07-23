@@ -1,35 +1,32 @@
-import React from 'react';
+import { useContext } from 'react';
 
 import Autocomplete from 'react-google-autocomplete';
 
+import { WeatherContext } from '@/contexts';
+import type { GoogleGeocodingInfo } from '@/types';
+import { getCoordsFromGeocodingInfo } from '@/lib';
+
 import { InputWrapper } from './styles';
 
-export default function SearchCity({
-  handleUpdateWeatherData,
-}: {
-  handleUpdateWeatherData: (cityName: string) => void;
-}): JSX.Element {
-  function handleSelectPlace(place: any) {
-    if (place?.formatted_address) {
-      handleUpdateWeatherData(place.formatted_address);
-    }
+export function SearchCity() {
+  const { updateWeatherData } = useContext(WeatherContext);
 
-    /*
-     * When user press 'Enter' instead of choosing a city, this param name is passed to place
-     */
+  const handleSelectPlace = (geocodingInfo: GoogleGeocodingInfo) => {
+    if (!geocodingInfo) return;
 
-    if (place?.name) {
-      handleUpdateWeatherData(place.name);
-    }
-  }
+    const newPlaceCoords = getCoordsFromGeocodingInfo(geocodingInfo);
+
+    updateWeatherData(newPlaceCoords);
+  };
 
   return (
     <InputWrapper>
       <Autocomplete
-        apiKey={process.env.REACT_APP_GOOGLE_KEY}
+        apiKey={process.env.NEXT_PUBLIC_GEOCODING_KEY}
         placeholder="Type a city"
         onPlaceSelected={handleSelectPlace}
       />
     </InputWrapper>
   );
 }
+

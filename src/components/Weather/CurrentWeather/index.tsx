@@ -1,85 +1,73 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
-import PressureAndHumidity from '../PressureAndHumidity';
-import WeatherIcon from '../WeatherIcon';
+import { WeatherIcon } from '../WeatherIcon';
+import { PressureAndHumidity } from '../PressureAndHumidity';
 
-import { WeatherContext } from '../../../contexts/WeatherContext';
-import { FavoriteCitiesContext } from '../../../contexts/FavoriteCitiesContext';
-
-import getFormattedDate from '../../../lib/getFormattedDate';
+import { getFormattedDate } from '@/lib';
+import { WeatherContext, FavoriteCitiesContext } from '@/contexts';
 
 import {
   CurrentDate,
-  CurrentWeatherContainer,
   MaxAndMinTemp,
+  CurrentWeatherContainer,
   TemperatureAndImageWrapper,
 } from './styles';
+import type { Coordinates, FavoriteCity } from '@/types';
 
-export default function CurrentWeather(): JSX.Element {
+const getCityName = (city: Coordinates) => {
+  const { name, country_code, county, state } = city;
+
+  return `${name}, ${state || county}, ${country_code}`;
+};
+
+export function CurrentWeather(): JSX.Element {
   const { weatherData, currentCityCoords } = useContext(WeatherContext);
-  const { isFavorite, handleClickAddOrRemoveFavCity } = useContext(
+  const { isFavorite, handleClickFavoriteButton } = useContext(
     FavoriteCitiesContext,
   );
-  const data = weatherData?.current;
 
-  const formattedWeatherDescriptionText = () =>
-    data?.weather[0].description
-      .split(' ')
-      .map(
-        (description) =>
-          `${description.charAt(0).toUpperCase()}${description.slice(1)} `,
-      );
+  const currentWeather = weatherData.current;
 
-  const Heart = () => {
-    if (isFavorite) {
-      return (
-        <AiFillHeart
-          size={25}
-          onClick={() =>
-            handleClickAddOrRemoveFavCity && handleClickAddOrRemoveFavCity()
-          }
-        />
-      );
-    }
-    return (
-      <AiOutlineHeart
-        size={25}
-        onClick={() =>
-          handleClickAddOrRemoveFavCity && handleClickAddOrRemoveFavCity()
-        }
-      />
-    );
-  };
+  const weatherDescriptionText = currentWeather.weather[0].description
+    .split(' ')
+    .map(
+      (description) =>
+        `${description.charAt(0).toUpperCase()}${description.slice(1)} `,
+    )
+    .join(' ');
 
   return (
     <CurrentWeatherContainer>
-      <CurrentDate>{getFormattedDate(data?.dt)}</CurrentDate>
+      <CurrentDate>{getFormattedDate(currentWeather.dt)}</CurrentDate>
       <div>
-        <h1>
-          {currentCityCoords?.county || currentCityCoords?.region},{' '}
-          {currentCityCoords?.country_code}
-        </h1>
-        <Heart />
+        <h1>{getCityName(currentCityCoords as FavoriteCity)}</h1>
+
+        {isFavorite ? (
+          <AiFillHeart size={25} onClick={handleClickFavoriteButton} />
+        ) : (
+          <AiOutlineHeart size={25} onClick={handleClickFavoriteButton} />
+        )}
       </div>
 
-      <h3>{formattedWeatherDescriptionText()}</h3>
+      <h3>{weatherDescriptionText}</h3>
 
       <TemperatureAndImageWrapper>
-        <h1>{Math.round(data?.temp)}° C</h1>
-        <WeatherIcon icon={data?.weather[0].icon} />
+        <h1>{Math.round(currentWeather.temp)}° C</h1>
+        <WeatherIcon icon={currentWeather?.weather[0].icon} />
       </TemperatureAndImageWrapper>
 
       <MaxAndMinTemp>
-        {Math.round(weatherData?.daily[0].temp?.min)}° C/
-        {Math.round(weatherData?.daily[0].temp?.max)}° C
+        {Math.round(weatherData.daily[0].temp.min)}° C/
+        {Math.round(weatherData.daily[0].temp.max)}° C
       </MaxAndMinTemp>
 
       <PressureAndHumidity
-        pressure={data?.pressure}
-        humidity={data?.humidity}
+        pressure={currentWeather.pressure}
+        humidity={currentWeather.humidity}
         size="large"
       />
     </CurrentWeatherContainer>
   );
 }
+

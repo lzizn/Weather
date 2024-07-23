@@ -1,8 +1,9 @@
-export default interface Coordinates {
-  latitude?: string;
-  longitude?: string;
+export interface Coordinates {
   name?: string;
+  latitude?: number;
+  longitude?: number;
   county?: string;
-  region?: string;
+  state?: string;
   country_code?: string;
 }
+

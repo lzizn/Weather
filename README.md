@@ -1,4 +1,4 @@
-# [WebWeatherChallenge](https://webweatherchallenge.netlify.app/) 🌧️
+# [WebWeatherChallenge] 🌧️
 
 ## Table of contents :bookmark_tabs: 
 * [General info](#general-info)

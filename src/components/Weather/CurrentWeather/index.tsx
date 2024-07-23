@@ -8,6 +8,7 @@ import { getCityName, getFormattedDate } from '@/lib';
 import { WeatherContext, FavoriteCitiesContext } from '@/contexts';
 
 import {
+  CityName,
   CurrentDate,
   MaxAndMinTemp,
   CurrentWeatherContainer,
@@ -35,7 +36,7 @@ export function CurrentWeather(): JSX.Element {
     <CurrentWeatherContainer>
       <CurrentDate>{getFormattedDate(currentWeather.dt)}</CurrentDate>
       <div>
-        <h1>{getCityName(currentCityCoords as FavoriteCity)}</h1>
+        <CityName>{getCityName(currentCityCoords as FavoriteCity)}</CityName>
 
         {isFavorite ? (
           <AiFillHeart size={25} onClick={handleClickFavoriteButton} />

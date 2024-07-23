@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
+export const CityName = styled.h1`
+  color: var(--black-01);
+  font-size: 1.8rem;
+`;
+
 export const CurrentWeatherContainer = styled.div`
   width: 45%;
   max-width: 350px;
+  min-width: 350px;
 
   border-right: 1px solid rgba(255, 255, 255, 0.3);
 
-  & > div > h1 {
-    color: var(--black-01);
-  }
   & > h3 {
     color: var(--black-02);
   }
@@ -21,6 +24,9 @@ export const CurrentWeatherContainer = styled.div`
   & > div:first-of-type > svg {
     cursor: pointer;
     margin-left: 0.5rem;
+  }
+  @media (max-width: 500px) {
+    min-width: unset;
   }
   @media (max-width: 840px) {
     width: 100%;
@@ -63,3 +69,4 @@ export const MaxAndMinTemp = styled.span`
 
   color: var(--black-02);
 `;
+

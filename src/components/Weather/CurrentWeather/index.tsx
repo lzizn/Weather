@@ -4,7 +4,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { WeatherIcon } from '../WeatherIcon';
 import { PressureAndHumidity } from '../PressureAndHumidity';
 
-import { getFormattedDate } from '@/lib';
+import { getCityName, getFormattedDate } from '@/lib';
 import { WeatherContext, FavoriteCitiesContext } from '@/contexts';
 
 import {
@@ -14,12 +14,6 @@ import {
   TemperatureAndImageWrapper,
 } from './styles';
 import type { Coordinates, FavoriteCity } from '@/types';
-
-const getCityName = (city: Coordinates) => {
-  const { name, country_code, county, state } = city;
-
-  return `${name}, ${state || county}, ${country_code}`;
-};
 
 export function CurrentWeather(): JSX.Element {
   const { weatherData, currentCityCoords } = useContext(WeatherContext);

@@ -1,4 +1,4 @@
-# [WebWeatherChallenge](https://web-weather-challenge.vercel.app/) 🌧️
+# [Weather](https://laianbraum-weather.vercel.app/) 🌧️
 
 ## Table of contents :bookmark_tabs: 
 * [General info](#general-info)
@@ -6,10 +6,10 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-## General info :information_source:
-WebWeatherChallenge was developed for [technical test for a Software Engineer job application at PremierSoft](./TODO.README.md#premierSoft-weather).
+## General info ℹ️
+Weather is a [technical test](./TODO.README.md#premierSoft-weather). for a Software Engineer job application at [PremierSoft](https://www.linkedin.com/company/premiersoft);
 	
-## Preview :movie_camera:
+## Preview 🎥
 <p align="center">   
   <img src="https://ik.imagekit.io/omw7s2bi2wq/webweatherchallenge-preview_W5Z7qPpZm.gif" alt="Preview" width="600px" />
 </p>
@@ -24,13 +24,13 @@ Project is created with:
 * Google Geocoding API for coordinates data
 
 	
-## Setup :computer:
+## Setup 💻
 
-To run this project, clone then install it locally using yarn:
+To run this project, clone then install it locally using pnpm:
 
 ```
-$ git clone https://github.com/lzizn/Weather.git
-$ cd Weather
+$ git clone https://github.com/lzizn/weather.git
+$ cd weather
 $ pnpm i
 $ pnpm run start
 ```

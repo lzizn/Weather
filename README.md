@@ -7,7 +7,7 @@
 * [Setup](#setup)
 
 ## General info ℹ️
-Weather is a [technical test](./TODO.README.md#premierSoft-weather) for a Software Engineer job application at [PremierSoft](https://www.linkedin.com/company/premiersoft);
+Weather was developed as a [technical assessment](./TODO.README.md#premierSoft-weather) for a Software Engineer job application at [PremierSoft](https://www.linkedin.com/company/premiersoft), which I worked from June 2021 to February 2022.
 	
 ## Preview 🎥
 <p align="center">   

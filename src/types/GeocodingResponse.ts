@@ -13,3 +13,7 @@ export interface GoogleGeocodingInfo {
   };
 }
 
+export interface GoogleGeocodingResponse {
+  results: GoogleGeocodingInfo[];
+  status: string;
+}

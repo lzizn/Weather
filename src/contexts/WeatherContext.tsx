@@ -3,14 +3,10 @@
 import { toast } from 'react-toastify';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import {
-  getWeatherData,
-  getGeocodingInfo,
-  getCoordsFromGeocodingInfo,
-} from '@/lib';
+import { getCoordsFromGeocodingInfo } from '@/lib';
 
 import { Loading } from '@/components';
-import type { WeatherData, Coordinates } from '@/types';
+import type { WeatherData, Coordinates, GoogleGeocodingInfo } from '@/types';
 
 interface WeatherContextType {
   currentCityCoords?: Coordinates;
@@ -51,16 +47,24 @@ export function WeatherContextProvider({
 
     try {
       if (!newCoords.latitude || !newCoords.longitude) {
-        const geocodingInfo = await getGeocodingInfo(newCoords.name as string);
+        const formattedPlace = (newCoords.name as string)
+          .replaceAll(' ', '+')
+          .replaceAll(',', '+');
+
+        const geocodingResponse = await fetch(
+          `/api/geocoding?place=${formattedPlace}`,
+        );
+        const geocodingInfo =
+          (await geocodingResponse.json()) as GoogleGeocodingInfo;
         const googleCoords = getCoordsFromGeocodingInfo(geocodingInfo);
 
         newCoords = { ...googleCoords };
       }
 
-      const data = await getWeatherData(
-        newCoords.latitude as number,
-        newCoords.longitude as number,
+      const weatherResponse = await fetch(
+        `/api/weather?lat=${newCoords.latitude}&lng=${newCoords.longitude}`,
       );
+      const data = (await weatherResponse.json()) as WeatherData;
 
       setCurrentCityCoords(newCoords);
       setWeatherData(data);
@@ -71,7 +75,7 @@ export function WeatherContextProvider({
   }
 
   useEffect(() => {
-    updateWeatherData({ name: 'Blumenau,Santa Catarina,BRA' });
+    updateWeatherData({ name: 'Vitoria,Espirito Santo,BRA' });
   }, []);
 
   return (
